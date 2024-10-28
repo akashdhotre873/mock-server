@@ -17,5 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path("", include("route_holder.urls")),
     path("add-route", include("routes.urls"))
 ]

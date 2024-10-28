@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "routes"
+    "routes",
+    "route_holder"
 ]
 
 MIDDLEWARE = [

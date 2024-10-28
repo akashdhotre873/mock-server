@@ -6,7 +6,7 @@ from django.urls import clear_url_caches
 from main.settings import collection_mock_call
 import json
 import sys
-from . import urls 
+from route_holder import urls 
 from routes.models import MockHTTPEntity
 
 def testing(request):
