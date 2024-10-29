@@ -7,15 +7,12 @@ from main.settings import collection_mock_call
 import json
 import sys
 from route_holder import urls 
-from routes.models import MockHTTPEntity
 
 def testing(request):
     if(request.method == "POST"):
         http_dict = json.loads(request.body)
-        mock_http_entity = MockHTTPEntity(http_dict)
-        print(mock_http_entity)
         collection_mock_call.insert_one(http_dict)
-        urls.add_route(data=mock_http_entity)
+        urls.add_route()
         resp = {"success" : True, "message" : "Endpoint added successfully!"}
         return HttpResponse(json.dumps(resp), content_type="application/json")
     else:

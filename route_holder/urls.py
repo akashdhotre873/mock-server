@@ -7,33 +7,43 @@ import sys
 import json
 from routes.models import MockHTTPEntity
 from functools import partial
-
+from main.settings import collection_mock_call
+from . import views
 
 urlpatterns = []
 
+def reloadURLsWrapper():
+    reloadUrls()
+
+def add_route():
+    reloadUrls()
 
 
-def add_route(data:MockHTTPEntity):
-    updateUrl(data)
-
-
-def resp(response):
+def resp(request, response):
     return HttpResponse(json.dumps(response), content_type="application/json")
 
 
 
-
-def updateUrl(data: MockHTTPEntity):
+def reloadUrls():
     global urlpatterns
+    urlpatterns = []
+    
+    parsed_mock_entities = findAndGroupMockEntities()
 
-    def wrapper_for_fun(request):
-        partial_fun = partial(resp, data.response)
-        return partial_fun()
-        
-    url = data.url
-    urlpatterns = urlpatterns +  [path(url, wrapper_for_fun, name=data.name)]
+    for url, parsed_group in parsed_mock_entities.items():
+        urlpatterns = urlpatterns +  [path(url, views.RouteHandlerView.as_view(data=parsed_group))]
     
     urlconf = settings.ROOT_URLCONF
     if urlconf in sys.modules:
       clear_url_caches()
       reload(sys.modules[urlconf])
+
+def findAndGroupMockEntities():
+    all_mock_call_entities = collection_mock_call.find({})
+    data = {}
+    for mock_entity in all_mock_call_entities:
+        url = mock_entity.get("url")
+        if data.get(url) == None:
+            data[url] = []
+        data[url].append(mock_entity)
+    return data
