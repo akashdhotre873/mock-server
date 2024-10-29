@@ -8,7 +8,7 @@ import json
 import sys
 from route_holder import urls 
 
-def testing(request):
+def add_route(request):
     if(request.method == "POST"):
         http_dict = json.loads(request.body)
         collection_mock_call.insert_one(http_dict)
