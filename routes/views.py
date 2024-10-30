@@ -7,15 +7,46 @@ from main.settings import collection_mock_call
 import json
 import sys
 from route_holder import urls 
+from rest_framework.decorators import api_view
+from common.request_util import is_none, is_blank, allowed_values
+from common.exceptions import RequestRejectedException
+from common.constants import allowed_http_methods
 
+
+
+@api_view(['POST'])
 def add_route(request):
-    if(request.method == "POST"):
-        http_dict = json.loads(request.body)
-        collection_mock_call.insert_one(http_dict)
-        urls.add_route()
-        resp = {"success" : True, "message" : "Endpoint added successfully!"}
-        return HttpResponse(json.dumps(resp), content_type="application/json")
-    else:
-        resp  = {"success" : False, "message" : "Not Found!"}
-        return HttpResponse(json.dumps(resp), content_type="application/json", status=404)
+    try:
+        if(request.method == "POST"):
+            request_body = json.loads(request.body)
+            validateRequestBody(request_body)
+            validateIfMockAlreadyPresent(request_body)
+            collection_mock_call.insert_one(request_body)
+            urls.add_route()
+            resp = {"success" : True, "message" : "Endpoint added successfully!"}
+            return HttpResponse(json.dumps(resp), content_type="application/json")
+        else:
+            resp  = {"success" : False, "message" : "Not Found!"}
+            return HttpResponse(json.dumps(resp), content_type="application/json", status=404)
+    except RequestRejectedException as ex:
+        message = str(ex)
+        resp = {"success" : False, "message" : message}
+        return HttpResponse(json.dumps(resp), status= ex.status, content_type="application/json")
+
  
+def validateRequestBody(request_body):
+    url = request_body.get("url")
+    response = request_body.get("response")
+    method = request_body.get("method")
+    is_blank(param=url, message="url can not be null or blank.")
+    is_none(param=response, message="response can not be null.")
+    allowed_values(param=method,allowed_values=allowed_http_methods ,message=method + " is not a valid value.")
+
+def validateIfMockAlreadyPresent(request_body):
+    url = request_body.get("url")
+    method = request_body.get("method")
+    mock_request = collection_mock_call.find_one({"url" :url, "method": method})
+    if mock_request != None:
+        raise RequestRejectedException(message="A record with this url and method already exists!", status=400)
+    
+

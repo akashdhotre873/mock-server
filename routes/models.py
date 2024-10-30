@@ -14,4 +14,3 @@ class MockHTTPEntity():
         status =  self.__getattribute__("status")
         return "url: " + url + ", method: " + method  + ", resp: " + json.dumps(response) + ", status: " + status
 
-    
