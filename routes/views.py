@@ -38,9 +38,11 @@ def validateRequestBody(request_body):
     url = request_body.get("url")
     response = request_body.get("response")
     method = request_body.get("method")
-    is_blank(param=url, message="url can not be null or blank.")
+    status = request_body.get("status")
+    validateURL(url)
     is_none(param=response, message="response can not be null.")
-    allowed_values(param=method,allowed_values=allowed_http_methods ,message=method + " is not a valid value.")
+    validateMethod(method)
+    validateStatus(status)
 
 def validateIfMockAlreadyPresent(request_body):
     url = request_body.get("url")
@@ -48,5 +50,22 @@ def validateIfMockAlreadyPresent(request_body):
     mock_request = collection_mock_call.find_one({"url" :url, "method": method})
     if mock_request != None:
         raise RequestRejectedException(message="A record with this url and method already exists!", status=400)
-    
+
+def validateURL(url):
+    if type(url) is not str:
+        raise RequestRejectedException(message="url is not a string.", status=400)
+    is_blank(param=url, message="url can not be null or blank.")
+
+def validateMethod(method):
+    if type(method) is not str:
+        raise RequestRejectedException(message="method is not a string.", status=400)
+    allowed_values(param=method,allowed_values=allowed_http_methods ,message=method + " is not a valid value.")
+
+def validateStatus(status):
+    if status == None:
+        return
+    if type(status) is not int:
+        raise RequestRejectedException(message="status is not an integer.", status=400)
+    if status > 599 or status < 100:
+        raise RequestRejectedException(message="Invalid status code passed.", status=400)
 
