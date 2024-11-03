@@ -10,7 +10,7 @@ from route_holder import urls
 from rest_framework.decorators import api_view
 from common.request_util import is_none, is_blank, allowed_values
 from common.exceptions import RequestRejectedException
-from common.constants import allowed_http_methods
+from common.constants import allowed_http_methods, urls_already_in_use
 
 
 
@@ -54,6 +54,8 @@ def validateIfMockAlreadyPresent(request_body):
 def validateURL(url):
     if type(url) is not str:
         raise RequestRejectedException(message="url is not a string.", status=400)
+    if url in urls_already_in_use:
+        raise RequestRejectedException(message="This is an application url, can not be used!", status=400)
     is_blank(param=url, message="url can not be null or blank.")
 
 def validateMethod(method):

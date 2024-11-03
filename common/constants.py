@@ -9,3 +9,7 @@ allowed_http_methods = [
     "HEAD",
     "OPTIONS",
 ]
+
+urls_already_in_use = [
+    "add-route"
+]
