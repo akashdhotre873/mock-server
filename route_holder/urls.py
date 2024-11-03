@@ -18,6 +18,9 @@ def reloadURLsWrapper():
 def add_route():
     reloadUrls()
 
+def update_routes():
+    reloadUrls()
+
 
 def resp(request, response):
     return HttpResponse(json.dumps(response), content_type="application/json")
