@@ -6,15 +6,12 @@ from django.urls import clear_url_caches
 from main.settings import collection_mock_call
 import json
 import sys
-from route_holder import urls 
-from rest_framework.decorators import api_view
+from route_holder import urls
 from common.request_util import is_none, is_blank, allowed_values
 from common.exceptions import RequestRejectedException
 from common.constants import allowed_http_methods, urls_already_in_use
 
 
-
-@api_view(['POST'])
 def add_route(request):
     try:
         if(request.method == "POST"):
@@ -26,8 +23,8 @@ def add_route(request):
             resp = {"success" : True, "message" : "Endpoint added successfully!"}
             return HttpResponse(json.dumps(resp), content_type="application/json")
         else:
-            resp  = {"success" : False, "message" : "Not Found!"}
-            return HttpResponse(json.dumps(resp), content_type="application/json", status=404)
+            resp  = {"success" : False, "message" : "Method Not Allowed"}
+            return HttpResponse(json.dumps(resp), content_type="application/json", status=405)
     except RequestRejectedException as ex:
         message = str(ex)
         resp = {"success" : False, "message" : message}
