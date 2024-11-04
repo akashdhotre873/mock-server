@@ -11,5 +11,5 @@ allowed_http_methods = [
 ]
 
 urls_already_in_use = [
-    "add-route"
+    "routes"
 ]

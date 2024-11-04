@@ -22,5 +22,5 @@ handler404=custom404
 
 urlpatterns = [
     path("", include("route_holder.urls")),
-    path("add-route", include("routes.urls"))
+    path("routes", include("routes.urls"))
 ]
