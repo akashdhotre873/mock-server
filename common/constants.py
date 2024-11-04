@@ -1,5 +1,3 @@
-
-
 allowed_http_methods = [
     "GET",
     "POST",
@@ -10,6 +8,4 @@ allowed_http_methods = [
     "OPTIONS",
 ]
 
-urls_already_in_use = [
-    "routes"
-]
+urls_already_in_use = ["routes"]
