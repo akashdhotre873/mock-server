@@ -1,15 +1,17 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.conf import settings
-from importlib import reload
-from django.urls import clear_url_caches
-from main.settings import collection_mock_call
 import json
 import sys
-from route_holder import urls
-from common.request_util import is_none, is_blank, allowed_values
-from common.exceptions import RequestRejectedException
+from importlib import reload
+
+from django.conf import settings
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.urls import clear_url_caches
+
 from common.constants import allowed_http_methods, urls_already_in_use
+from common.exceptions import RequestRejectedException
+from common.request_util import allowed_values, is_blank, is_none
+from main.settings import collection_mock_call
+from route_holder import urls
 
 
 def add_route(request):

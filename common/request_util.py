@@ -1,5 +1,7 @@
 from django.http import HttpResponse
+
 from .exceptions import RequestRejectedException
+
 
 def is_none(param, message = "value can not be null."):
     if param == None:

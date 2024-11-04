@@ -1,12 +1,14 @@
+import json
+import sys
+from functools import partial
+from importlib import reload
+
+from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse
-from django.conf import settings
-from importlib import reload
-import sys
-import json
+
 from routes.models import MockHTTPEntity
-from functools import partial
 
 
 class RouteHandlerView(View):

@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
+
 
 def custom404(request, exception=None):
     not_found_resp_message = {"success" : False, "message" : "Not Found!"}

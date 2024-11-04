@@ -1,13 +1,16 @@
-from django.urls import path, clear_url_caches
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.conf import settings
-from importlib import reload
-import sys
 import json
-from routes.models import MockHTTPEntity
+import sys
 from functools import partial
+from importlib import reload
+
+from django.conf import settings
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.urls import clear_url_caches, path
+
 from main.settings import collection_mock_call
+from routes.models import MockHTTPEntity
+
 from . import views
 
 urlpatterns = []
