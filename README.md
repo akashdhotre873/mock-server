@@ -23,7 +23,7 @@ By default server runs on port 8000.
 Create route API
 
 ```curl
-curl --location --request POST 'http://localhost:8000/routes' \
+curl --location 'http://localhost:8000/routes' \
 --header 'Content-Type: application/json' \
 --data '{
     "url": "todos",
@@ -42,7 +42,10 @@ curl --location --request POST 'http://localhost:8000/routes' \
             "completed": true
         }
     ],
-    "status": 200
+    "status": 200,
+    "headers": {
+        "foo": "bar"
+    }
 }'
 ```
 
@@ -52,6 +55,7 @@ curl --location --request POST 'http://localhost:8000/routes' \
 | `method`   | `string`  | method of the mock API             | Yes      | -        |
 | `response` | `object`  | response of the mock API           | Yes      | -        |
 | `status`   | `integer` | return status code of the mock API | No       | `200 OK` |
+| `headers`  | `object`  | response headers of the mock API   | No       | -        |
 |            |           |                                    |          |          |
 
 Once url is set up, hit the GET /todos API.

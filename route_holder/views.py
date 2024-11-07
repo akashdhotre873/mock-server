@@ -39,6 +39,7 @@ class RouteHandlerView(View):
             json.dumps(mock_entity.get("response")),
             content_type="application/json",
             status=self.getStatus(mock_entity),
+            headers=mock_entity.get("headers"),
         )
 
     def get(self, request, *args, **kwargs):
