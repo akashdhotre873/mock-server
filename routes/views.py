@@ -96,6 +96,7 @@ def validateAddOrUpdateRouteRequestBody(request_body):
     validateStatus(status)
     validateHeaders(headers)
 
+
 def validateIfMockAlreadyPresent(request_body):
     url = request_body.get("url")
     method = request_body.get("method")
@@ -137,11 +138,10 @@ def validateStatus(status):
             message="Invalid status code passed.", status=400
         )
 
+
 def validateHeaders(headers):
     if headers == None:
         return
     if isinstance(headers, dict):
         return
-    raise RequestRejectedException(
-            message="Invalid headers passed.", status=400
-        )
+    raise RequestRejectedException(message="Invalid headers passed.", status=400)
