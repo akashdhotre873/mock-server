@@ -89,11 +89,12 @@ def validateAddOrUpdateRouteRequestBody(request_body):
     response = request_body.get("response")
     method = request_body.get("method")
     status = request_body.get("status")
+    headers = request_body.get("headers")
     validateURL(url)
     is_none(param=response, message="response can not be null.")
     validateMethod(method)
     validateStatus(status)
-
+    validateHeaders(headers)
 
 def validateIfMockAlreadyPresent(request_body):
     url = request_body.get("url")
@@ -134,4 +135,13 @@ def validateStatus(status):
     if status > 599 or status < 100:
         raise RequestRejectedException(
             message="Invalid status code passed.", status=400
+        )
+
+def validateHeaders(headers):
+    if headers == None:
+        return
+    if isinstance(headers, dict):
+        return
+    raise RequestRejectedException(
+            message="Invalid headers passed.", status=400
         )
